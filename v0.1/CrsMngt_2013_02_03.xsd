@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (x64) (http://www.altova.com) by Dr. F.-J. Behr (Hochschule für Technik Stuttgart) -->
+<!-- Mit XMLSpy v2012 sp1 (http://www.altova.com) von Franz-Josef Behr (HFT Stuttgart) bearbeitet -->
+<!-- XML Schema Definition following the OpenStreetMap Humanitarian Data Model, http://wiki.openstreetmap.org/wiki/Humanitarian_OSM_Tags/Humanitarian_Data_Model -->
+<!-- HOT Crisis Mapping Language v 0.1 2012-01-21 -->
+<xs:schema xmlns="http://geoweb.hft-stuttgart.de/schemas/crisismanagement" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" targetNamespace="http://geoweb.hft-stuttgart.de/schemas/crisismanagement" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="gml3.1/base/feature.xsd"/>
+	<xs:element name="CrisisManagement" type="CrisisManagementType" substitutionGroup="gml:_FeatureCollection">
+		<xs:annotation>
+			<xs:documentation>Pnishi, Mentor, mentor.pnishi@yahoo.de; Saveluc, Andra, asaveluc@gmx.de; Sitz, Janka; Shresta, Thomas; supervisor: Prof. Dr. Franz-Josef Behr, franz-josef.behr@hft-stuttgart.de </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CrisisManagementType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureCollectionType">
+				<xs:sequence>
+					<xs:element ref="Transportation"/>
+					<xs:element ref="HealthFacility"/>
+					<xs:element ref="IDPs_campSite"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TransportationType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureCollectionType">
+				<xs:sequence>
+					<xs:element ref="Bridge"/>
+					<xs:element ref="Road"/>
+					<xs:element ref="Aerodrome"/>
+					<xs:element ref="Port"/>
+					<xs:element ref="FuelPoint"/>
+					<xs:element ref="Obstacle"/>
+					<xs:element ref="Warehouse"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Transportation" type="TransportationType" substitutionGroup="gml:_FeatureCollection"/>
+	<xs:element name="Road" type="RoadType" substitutionGroup="gml:_Feature"/>
+	<xs:element name="Bridge" type="BridgeType" substitutionGroup="gml:_Feature"/>
+	<xs:complexType name="RoadType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:curveProperty"/>
+					<xs:element name="FunctionalClassValues" type="FunctionalClassValues"/>
+					<xs:element ref="OperationalStatusValues"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element ref="Practicabillity"/>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="OfficialName" type="xs:string" minOccurs="0"/>
+					<xs:element name="RouteName" type="xs:string" minOccurs="0"/>
+					<xs:element name="SurfaceType" type="SurfaceType"/>
+					<xs:element name="SurfaceCondition">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Rough_(smaller40kph)"/>
+								<xs:enumeration value="Smooth_(bigger40kph)"/>
+								<xs:enumeration value="Dirt/Sand"/>
+								<xs:enumeration value="Mud"/>
+								<xs:enumeration value="Snow/Ice"/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element ref="ID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BridgeType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="BridgeTypeValue" type="BridgeTypeValues"/>
+					<xs:element name="length_m">
+						<xs:simpleType>
+							<xs:restriction base="xs:double">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="width_m">
+						<xs:simpleType>
+							<xs:restriction base="xs:double">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="maxTotalLoad_t">
+						<xs:simpleType>
+							<xs:restriction base="xs:double">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="hasBypass" type="xs:boolean" default="false"/>
+					<xs:element name="TransportationUseCategory">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Road"/>
+								<xs:enumeration value="Rail"/>
+								<xs:enumeration value="Both Road and Rail"/>
+								<xs:enumeration value="Canal"/>
+								<xs:enumeration value="Pipeline"/>
+								<xs:enumeration value="Cablin"/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element ref="OperationalStatusValues"/>
+					<xs:element ref="Practicabillity"/>
+					<xs:element name="SurfaceType" type="SurfaceType"/>
+					<xs:element ref="ID"/>
+					<xs:element name="BaseMaterialValues">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Wood "/>
+								<xs:enumeration value="Concrete "/>
+								<xs:enumeration value="Stone"/>
+								<xs:enumeration value="Steel"/>
+								<xs:enumeration value="PVC "/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="FunctionalClassValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Primary"/>
+			<xs:enumeration value="Secondary"/>
+			<xs:enumeration value="Tertiary"/>
+			<xs:enumeration value="Local/Urban_unspecified"/>
+			<xs:enumeration value="Local/Urban_residential"/>
+			<xs:enumeration value="Local/Urban_service"/>
+			<xs:enumeration value="Local/Urban_primaryJunction"/>
+			<xs:enumeration value="Local/Urban_secondaryJunction"/>
+			<xs:enumeration value="Local/Urban_miniRoundabout"/>
+			<xs:enumeration value="Local/Urban_turninCircle"/>
+			<xs:enumeration value="PrivateUnspecified"/>
+			<xs:enumeration value="Track"/>
+			<xs:enumeration value="Trail"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BridgeTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Arch"/>
+			<xs:enumeration value="Beam"/>
+			<xs:enumeration value="Truss"/>
+			<xs:enumeration value="Floating"/>
+			<xs:enumeration value="Suspension"/>
+			<xs:enumeration value="Culvert"/>
+			<xs:enumeration value="Culvert - round"/>
+			<xs:enumeration value="Culvert - box"/>
+			<xs:enumeration value="unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Practicabillity" type="Practicability"/>
+	<xs:element name="ID">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UID">
+					<xs:annotation>
+						<xs:documentation>OSM Unique ID. Use an URN with Name Space Identifier (NID) osm and scheme to identify an OSM object in other dataset
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="0" fixed="true"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="UUID">
+					<xs:annotation>
+						<xs:documentation>Universally Unique Identifier: the Reference UUID set up by the data custodian of a given humanitarian object and agreed upon by the humanitarian and development actors for data synchronization. Read-only. This maps to id:uuid=*. Use a the URN-scheme to build globally unique IDs
+							</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="0"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Aerodrome" type="AerodromeType" substitutionGroup="gml:_Feature"/>
+	<xs:complexType name="AerodromeType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="AerodromeTypeValues" type="AerodromeTypeValues"/>
+					<xs:element name="Ae_Practicability" type="xs:string"/>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="TakeOffLandingLength_m">
+						<xs:simpleType>
+							<xs:restriction base="xs:double">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="TakeOffLandingWidth_m">
+						<xs:simpleType>
+							<xs:restriction base="xs:double">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="HelicopterLandingZomeTypeValues" type="HelicopterLandingZomeTypeValues"/>
+					<xs:element name="CargoHandlingDescription" type="xs:string" default="" minOccurs="0"/>
+					<xs:element name="CargoStorageDescription" type="xs:string" minOccurs="0"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element ref="ID"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="OperatingOrganizationName" type="xs:string"/>
+					<xs:element name="HumanitarianUseValues" type="HumanitarianUseValues" maxOccurs="unbounded"/>
+					<xs:element name="SurfaceType" type="SurfaceType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="AerodromeTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Airport"/>
+			<xs:enumeration value="Airfield"/>
+			<xs:enumeration value="Airstrip"/>
+			<xs:enumeration value="Fixed_HelicopterLandingZone"/>
+			<xs:enumeration value="Improvised_HelicopterLandingZone"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HelicopterLandingZomeTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Purpose_built"/>
+			<xs:enumeration value="SportsField_Park_ParkSportsField"/>
+			<xs:enumeration value="AgriculturalField"/>
+			<xs:enumeration value="CarPark"/>
+			<xs:enumeration value="Rooftop"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="QualityOfOpStatusInfoValues">
+		<xs:annotation>
+			<xs:documentation>Elemente sind in gleicher Ebene. Choice, weill nur eine Eingabe gewollt</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="Reported" type="xs:string" minOccurs="0"/>
+				<xs:element name="Confirmed" type="xs:string" minOccurs="0"/>
+				<xs:element name="Unspecified" type="xs:string" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SpatialSignature">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PCCODE" type="xs:string" minOccurs="0"/>
+				<xs:element name="Admin_level_1_Name" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Admin_level_2_Name" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Admin_level_3_Name" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Admin_level_4_Name" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Area_Location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Area_LocationDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="HumanitarianUseValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EntryPoint"/>
+			<xs:enumeration value="PrimaryHub"/>
+			<xs:enumeration value="SecondaryHub"/>
+			<xs:enumeration value="FinalDeliveryPoint"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Practicability">
+		<xs:annotation>
+			<xs:documentation>global da es in mehreren Elementen vorkommt</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NonMotorized"/>
+			<xs:enumeration value="Motorbike"/>
+			<xs:enumeration value="4WD_smaller_3,5MT"/>
+			<xs:enumeration value="LightTruck_smaller_10MT"/>
+			<xs:enumeration value="HeavyTruck_smaller_20MT"/>
+			<xs:enumeration value="Truck+Trail_bigger_20MT"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SurfaceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Pavel"/>
+			<xs:enumeration value="Gravel"/>
+			<xs:enumeration value="Steel"/>
+			<xs:enumeration value="Wood"/>
+			<xs:enumeration value="Grass"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Port" type="PortType"/>
+	<xs:complexType name="PortType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="PortTypeValues" type="PortTypeValues"/>
+					<xs:element ref="OperationalStatusValues"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element name="HumanitarianUseValues" type="HumanitarianUseValues"/>
+					<xs:element name="CargoHandlingDescription" minOccurs="0" maxOccurs="unbounded">
+						<xs:simpleType>
+							<xs:restriction base="xs:string"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CargoStorageDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="SpatialSignature"/>
+					<xs:element ref="ID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="PortTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Seaport"/>
+			<xs:enumeration value="River port"/>
+			<xs:enumeration value="Lake port"/>
+			<xs:enumeration value="Beaching"/>
+			<xs:enumeration value="Bank"/>
+			<xs:enumeration value="Ramp"/>
+			<xs:enumeration value="Anchorage"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="FuelPoint" type="FuelPointType"/>
+	<xs:complexType name="FuelPointType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="FuelPointValues" type="FuelPointValues" maxOccurs="unbounded"/>
+					<xs:element name="FuelStorageCapacityDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FuelTypeDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="OperationalStatusValues"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="SpatialSignature"/>
+					<xs:element ref="ID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="FuelPointValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FuelSupplyPoint"/>
+			<xs:enumeration value="FuelDepot"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Obstacle" type="ObstacleType"/>
+	<xs:complexType name="ObstacleType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element ref="OperationalStatusValues"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element ref="Practicabillity"/>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="ID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ObstacleTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bridgeDamage"/>
+			<xs:enumeration value="roadDamage"/>
+			<xs:enumeration value="landslideMudslide"/>
+			<xs:enumeration value="debris"/>
+			<xs:enumeration value="checkpoint"/>
+			<xs:enumeration value="roadblock"/>
+			<xs:enumeration value="unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Warehouse" type="WarehouseType"/>
+	<xs:complexType name="WarehouseType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="OperatingOrganizationName" type="xs:string"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element ref="QualityOfOpStatusInfoValues"/>
+					<xs:element name="HumanitarianUse" type="HumanitarianUseValues"/>
+					<xs:element name="CargoStorageDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="Annotation">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CargoStorageDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element name="CargoHandlingDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+								<xs:element name="StorageCapacity">
+									<xs:complexType>
+										<xs:choice>
+											<xs:element name="SquareMeters" type="xs:double" minOccurs="0"/>
+											<xs:element name="CubicMeters" type="xs:double" minOccurs="0"/>
+											<xs:element name="Ton" type="xs:string" minOccurs="0"/>
+										</xs:choice>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="SpatialSignature"/>
+					<xs:element ref="ID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="WarehouseTypeDescription">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:element name="HealthFacility" type="HealthFacilityType"/>
+	<xs:complexType name="HealthFacilityType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="HealthFacilityTypeValues" type="HealthFacilityTypeValues"/>
+					<xs:element name="HealthFacilityDamageValues" type="HealthFacilityDamageValues"/>
+					<xs:element name="TotalNumberOfBeds" type="xs:int"/>
+					<xs:element name="HealthFacilityConstructionDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="HealthFacilityServiceDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="HealthFacilityCapacityDescription" type="xs:string"/>
+					<xs:element ref="ID"/>
+					<xs:element name="Names" type="xs:string"/>
+					<xs:element ref="SpatialSignature"/>
+					<xs:element name="OperatingOrganization">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Org_Name" type="xs:string"/>
+								<xs:element name="Org_UID" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Source">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+								<xs:element name="GeometrySourceDate" type="xs:string" maxOccurs="unbounded"/>
+								<xs:element name="AttributeSourceType" type="xs:string" maxOccurs="unbounded"/>
+								<xs:element name="AttributeSourceDate" type="xs:string" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="GeometryAccuracyDescription" type="xs:string"/>
+					<xs:element name="OpStatus">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element ref="OperationalStatusValues"/>
+								<xs:element ref="QualityOfOpStatusInfoValues"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="HealthFacilityTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SpecializedHospital"/>
+			<xs:enumeration value="Hospital"/>
+			<xs:enumeration value="FieldHospital"/>
+			<xs:enumeration value="CS_HealthCenter"/>
+			<xs:enumeration value="CAL_HealthCenterWithBeds"/>
+			<xs:enumeration value="CSL_HealthCenterWithoutBeds"/>
+			<xs:enumeration value="Dispensary"/>
+			<xs:enumeration value="Other"/>
+			<xs:enumeration value="UnknownTypeOfFacility"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HealthFacilityDamageValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CompletelyDamaged"/>
+			<xs:enumeration value="Damaged"/>
+			<xs:enumeration value="Operational"/>
+			<xs:enumeration value="FieldHospital"/>
+			<xs:enumeration value="FieldHospitalColocatedWithHospital"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="OperationalStatusValues">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="Operational" type="xs:string" minOccurs="0"/>
+				<xs:element name="Restricted" type="xs:string" minOccurs="0"/>
+				<xs:element name="Closed" type="xs:string" minOccurs="0"/>
+				<xs:element name="Unspecified" type="xs:string" minOccurs="0"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IDPs_campSite" type="IDPs_campSiteType">
+		<xs:annotation>
+			<xs:documentation>Internally Displaced People camp site</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="IDPs_campSiteType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element ref="gml:pointProperty"/>
+					<xs:element name="AssessedByShelterCluster" type="xs:boolean" default="false"/>
+					<xs:element name="AssessmentDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="OperatinOrganizationName" type="xs:string"/>
+					<xs:element name="IDPs_CampTypeValues" type="IDPs_CampTypeValues"/>
+					<xs:element name="OpStatus">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="OperationalStatusValues"/>
+								<xs:element ref="QualityOfOpStatusInfoValues"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Population">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="inArea" type="xs:integer"/>
+								<xs:element name="inCamp" type="xs:integer"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="CampAreaEstimate_ha" type="xs:double"/>
+					<xs:element name="SurroundingStructuresInRiskOfCollapsing" type="xs:boolean" default="false"/>
+					<xs:element name="IDP_CampConditionValues">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Building"/>
+								<xs:enumeration value="Tents"/>
+								<xs:enumeration value="Sheets"/>
+								<xs:enumeration value="None"/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="IDP_CampStructuralSafetyValues">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="OpenArea" minOccurs="0"/>
+								<xs:element name="EnclosedArea_percent" minOccurs="0">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:enumeration value="25"/>
+											<xs:enumeration value="50"/>
+											<xs:enumeration value="75"/>
+											<xs:enumeration value="100"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="NonEnclosedBuilding" minOccurs="0"/>
+								<xs:element name="EnclosedBuilding" minOccurs="0"/>
+								<xs:element name="Unspecified" minOccurs="0"/>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="DrainageValues">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="OpenArea"/>
+								<xs:enumeration value="ExistingFunctioningDrains"/>
+								<xs:enumeration value="ExistingBlockedDrains"/>
+								<xs:enumeration value="NonExistingDrains"/>
+								<xs:enumeration value="SiteInADepressen"/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SustainedAccessToPotableWater" type="xs:boolean" default="false"/>
+					<xs:element name="SustainedAccessToGreyWater" type="xs:boolean" default="false"/>
+					<xs:element name="WaterAccessBySourceNearby" type="xs:boolean" default="false"/>
+					<xs:element name="WaterSourceDescription" type="xs:string"/>
+					<xs:element name="Tank_Blader">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="WaterAccessBy" type="xs:boolean" default="false"/>
+								<xs:element name="Tank_BladerDescription" type="xs:string"/>
+								<xs:element name="Tank_BladeNumber" type="xs:integer"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Well">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="WaterAccess" type="xs:boolean" default="false"/>
+								<xs:element name="Description" type="xs:string" minOccurs="0"/>
+								<xs:element name="Number" type="xs:integer"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="WaterAccessByTruck" type="xs:string" minOccurs="0"/>
+					<xs:element name="PitToilet">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AccessTo" type="xs:boolean" default="false"/>
+								<xs:element name="Number" type="xs:integer"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PortableToilet">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AccessTo" type="xs:boolean" default="false"/>
+								<xs:element name="Number" type="xs:integer"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AccessToSiteFromRoad_Network">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="AirOnly"/>
+								<xs:enumeration value="Nonmotorized"/>
+								<xs:enumeration value="Motorbike"/>
+								<xs:enumeration value="2WD_Car"/>
+								<xs:enumeration value="4WD_smaller3.5MT4WD_lessThan_3.5MT"/>
+								<xs:enumeration value="LightTruck_smaller_10MT"/>
+								<xs:enumeration value="HeavyTruck_smaller_20MT"/>
+								<xs:enumeration value="Truck+Trailer_bigger20MT"/>
+								<xs:enumeration value="Unspecified"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="GeometrySourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="GeometrySourceDate" type="xs:date" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceType" type="xs:string" maxOccurs="unbounded"/>
+					<xs:element name="AttributeSourceDate" type="xs:date" maxOccurs="unbounded"/>
+					<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="IDPs_CampTypeValues">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OrganizedCamp"/>
+			<xs:enumeration value="SpontaneousCamp"/>
+			<xs:enumeration value="Unspecified"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
